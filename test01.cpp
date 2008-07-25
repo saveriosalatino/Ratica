@@ -20,12 +20,18 @@ using namespace std;
 int main(){
   rootSim a;
   simClock* one = new simClock;
-
+/* 1 - Testing declarations */
   cellNode** circleElements; 
   circleElements = new cellNode* [12];
   for(short i = 0; i < 12; i++)
     circleElements[i] = new cellNode;
 
+/* 2 - Connecting the cellnodes */
+  for(short i = 0; i < 11; i++)
+    circleElements[i]->set_contacts(*circleElements[i+1], 2, 3);
+  circleElements[11]->set_contacts(*circleElements[0], 2, 3);
+
+ 
 
   delete one;
   one = NULL;

@@ -1,7 +1,6 @@
 /** @file cellnode.h
  * @brief Automata that account for a plant cell.
  * @author Pietro Brunetti
- * @author test
  *<!---------------------------------------------------------------------------
  *   Copyright (C) 2008 by Pietro Brunetti   *
  *   pietro.brunetti@unical.it   *
@@ -49,8 +48,7 @@ using namespace std;
  *
  * To create networks of interacting cells, we use this data members:
  * int geometry, there are two coordination geometry orthogonal and polar;
- * cellNode* contacts[6][10] are the possible contacts;
- * unsigned contact_index[6] are the number of contacts of each spatial directions; 
+ * vector <cellNode*> contacts are the possible contacts;
  *
  * At last:
  * static unsigned motherID and
@@ -115,8 +113,12 @@ public:
     * ( > 0 and < 6) and that the number of contacts 
     * for this directions there is minor than ten. 
     */
-   void contact(cellNode& other, unsigned direct1, unsigned direct2);
+   void set_contacts(cellNode& other, unsigned direct1, unsigned direct2);
    
+   /**
+    * To set morfogenSubstance with @p mS value.
+    */
+   void set_morfogenSubstance(double const mS);
    /**
     * It is for a simple passive transport of a substance from the one cell 
     * (the cellNode that call the function) to an other cell (called toward).

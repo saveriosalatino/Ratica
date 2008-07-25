@@ -32,13 +32,18 @@ cellNode::cellNode(double morphogen_concentration, int type, int geometry, int t
 }*/
 
 
-void cellNode::contact(cellNode& other, unsigned direct1, unsigned direct2)
+void cellNode::set_contacts(cellNode& other, unsigned direct1, unsigned direct2)
 {
   if(direct1 < 6 && direct2 <6){
     contacts[direct1].push_back(&other);
     other.contacts[direct2].push_back(this);
   }
 //TODO:else error message
+}
+
+void cellNode::set_morfogenSubstance(double const mS)
+{
+ morfogenSubstance = mS;
 }
 
 void cellNode::morfogen_Diffusion(double const k, cellNode& toward)
@@ -64,7 +69,7 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
     sister.contacts[1] = contacts[1];
     contacts[1].clear();
    
-    contact(sister, 1, 0);
+    set_contacts(sister, 1, 0);
     
     divideContacts(*this, sister, 2, contacts[2].size()/2);
     divideContacts(*this, sister, 3, contacts[3].size()/2);
@@ -77,7 +82,7 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
     sister.contacts[3] = contacts[3]; 
     contacts[3].clear();
     
-    contact(sister, 2, 3);
+    set_contacts(sister, 2, 3);
     
     divideContacts(*this, sister, 0, contacts[0].size()/2);
     divideContacts(*this, sister, 1, contacts[1].size()/2);
@@ -90,7 +95,7 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
     sister.contacts[5] = contacts[5];
     contacts[5].clear();
     
-    contact(sister,4, 5);
+    set_contacts(sister,4, 5);
     
     divideContacts(*this, sister, 0, contacts[0].size()/2);
     divideContacts(*this, sister, 1, contacts[1].size()/2);
