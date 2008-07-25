@@ -1,6 +1,7 @@
 /** @file cellnode.h
  * @brief Automata that account for a plant cell.
  * @author Pietro Brunetti
+ * @author test
  *<!---------------------------------------------------------------------------
  *   Copyright (C) 2008 by Pietro Brunetti   *
  *   pietro.brunetti@unical.it   *
