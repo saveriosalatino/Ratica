@@ -31,7 +31,6 @@ cellNode::cellNode(double morphogen_concentration, int type, int geometry, int t
 {
 }*/
 
-
 void cellNode::set_contacts(cellNode& other, unsigned direct1, unsigned direct2)
 {
   if(direct1 < 6 && direct2 <6){
@@ -46,6 +45,10 @@ void cellNode::set_morfogenSubstance(double const mS)
  morfogenSubstance = mS;
 }
 
+double cellNode::get_morfogenSubstance() const
+{
+	return morfogenSubstance;
+}
 void cellNode::morfogen_Diffusion(double const k, cellNode& toward)
 {
  toward.morfogenSubstance += k*morfogenSubstance;
@@ -63,27 +66,27 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
  sister.birth_time = time;
 
  switch(division_type)
- {   
+ {
   case 1:
     sister.contacts[0].clear();
     sister.contacts[1] = contacts[1];
     contacts[1].clear();
-   
+
     set_contacts(sister, 1, 0);
-    
+
     divideContacts(*this, sister, 2, contacts[2].size()/2);
     divideContacts(*this, sister, 3, contacts[3].size()/2);
     divideContacts(*this, sister, 4, contacts[4].size()/2);
     divideContacts(*this, sister, 5, contacts[5].size()/2);
     break;
-   
+
   case 2:
     sister.contacts[2].clear();
-    sister.contacts[3] = contacts[3]; 
+    sister.contacts[3] = contacts[3];
     contacts[3].clear();
-    
+
     set_contacts(sister, 2, 3);
-    
+
     divideContacts(*this, sister, 0, contacts[0].size()/2);
     divideContacts(*this, sister, 1, contacts[1].size()/2);
     divideContacts(*this, sister, 4, contacts[4].size()/2);
@@ -94,9 +97,9 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
     sister.contacts[4].clear();
     sister.contacts[5] = contacts[5];
     contacts[5].clear();
-    
+
     set_contacts(sister,4, 5);
-    
+
     divideContacts(*this, sister, 0, contacts[0].size()/2);
     divideContacts(*this, sister, 1, contacts[1].size()/2);
     divideContacts(*this, sister, 2, contacts[2].size()/2);
@@ -105,7 +108,7 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
 
    default:
     //TODO: Insert an error message
-    break; 
+    break;
  }
 }
 
