@@ -3,6 +3,7 @@
 //1 - The first test verify that constructors work fine;
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 #ifndef ROOTSIM_H
@@ -38,18 +39,29 @@ int main(){
   circleElements[11]->set_morfogenSubstance(100.0);
 
 /* 4 - Testing diffusion */
+  //Use for the label of a graph
+  cout << "time#\t";
+  for(short i = 0; i < 12; i++)
+    cout << i << '\t';
+  cout << endl;
+
   while (one->getTime() != 100){
-	for(short i = 0; i < 12; i++)
-	  cout << circleElements[i]->get_morfogenSubstance() << '\t';
-	cout << endl;
+    cout << one->getTime() << '\t';
 
-	for(short i = 0; i < 11; i++){
-	  circleElements[i]->morfogen_Diffusion(0.005, *circleElements[i+1]);
-	  circleElements[i+1]->morfogen_Diffusion(0.005, *circleElements[i]);
-	}
+    for(short i = 0; i < 12; i++)
+      cout << circleElements[i]->get_morfogenSubstance() << '\t';
+    cout << endl;
 
-	one->increaseTime();
+      for(short i = 0; i < 11; i++){
+       circleElements[i]->morfogen_Diffusion(0.005, *circleElements[i+1]);
+       circleElements[i+1]->morfogen_Diffusion(0.005, *circleElements[i]);
+      }
+
+    one->increaseTime();
   }
+/* 5 - Testing duplication */
+  vector<cellNode> forDupl;
+
 
   delete one;
   one = NULL;
