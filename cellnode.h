@@ -120,10 +120,25 @@ public:
     */
    void set_morfogenSubstance(double const mS);
 
+
    /**
     * To get morfogenSubstance.
     */
    double get_morfogenSubstance() const;
+
+   /**
+    * To get a linked cell. We don't use a const return, and the cellnode
+    * returned could be modified. This way has many risk but permits to
+    * implement smarter programs.
+    *
+    * @param dir defines the direction and it must be
+    * shorter than 6 (numeber of directions),
+    *
+    * @param pos accounts for the cellNode number
+    * pos stored in the vector
+    * and it must be shorter than vector.size().
+    */
+   cellNode* get_contacts(unsigned dir, unsigned pos);
 
    /**
     * It is for a simple passive transport of a substance from the one cell
