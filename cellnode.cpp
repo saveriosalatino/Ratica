@@ -49,6 +49,16 @@ double cellNode::get_morfogenSubstance() const
 {
 	return morfogenSubstance;
 }
+
+cellNode* cellNode::get_contacts(unsigned dir, unsigned pos)
+{
+	if (dir < 6 && pos < contacts[dir].size())
+		return contacts[dir][pos];
+	else
+		return NULL;
+	//TODO: : Insert an error message
+}
+
 void cellNode::morfogen_Diffusion(double const k, cellNode& toward)
 {
  toward.morfogenSubstance += k*morfogenSubstance;

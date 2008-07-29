@@ -53,8 +53,8 @@ int main(){
     cout << endl;
 
       for(short i = 0; i < 11; i++){
-       circleElements[i]->morfogen_Diffusion(0.005, *circleElements[i+1]);
-       circleElements[i+1]->morfogen_Diffusion(0.005, *circleElements[i]);
+       circleElements[i]->morfogen_Diffusion(0.005, *(circleElements[i]->get_contacts(2,0)));
+       circleElements[i+1]->morfogen_Diffusion(0.005, *(circleElements[i]->get_contacts(3,0)));
       }
 
     one->increaseTime();
