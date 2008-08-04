@@ -60,9 +60,42 @@ int main(){
     one->increaseTime();
   }
 /* 5 - Testing duplication */
+
   vector<cellNode> forDupl;
 
+  forDupl.push_back(1);//element that duplicate itself
 
+  //first duplication
+  forDupl.push_back(1);
+  forDupl[0].cell_Division(1, forDupl[1], one->getTime());
+  //second duplication
+  forDupl.push_back(1);
+  one->increaseTime();
+  forDupl[0].cell_Division(2, forDupl[2], one->getTime());
+  //second duplication
+  forDupl.push_back(1);
+  one->increaseTime();
+  forDupl[0].cell_Division(3, forDupl[3], one->getTime());
+
+
+  //Printing the forDupl elements
+  cout << "-----------------------------------"<< endl;
+  for(short i=0; i < forDupl.size(); i++)
+   cout << "i" << '\t' << &forDupl[i] << endl;
+
+  //Printing the connections of forDupl elements
+  for (short i=0; i < forDupl.size(); i++){
+	  cout << "-----------------------------------"<< endl;
+	  for(short j=0; j < 6; j++){
+		  cout << j << '\t' << forDupl[i].get_contacts(j).size() << '\t';
+		  for(short k=0; k < forDupl[i].get_contacts(j).size(); k++)
+			  cout << forDupl[i].get_contacts(j, k) << '\t';
+		  cout << endl;
+	  }
+  }
+
+
+  //end program
   delete one;
   one = NULL;
   for(short i = 0; i < 12; i++)

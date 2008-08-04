@@ -55,7 +55,16 @@ cellNode* cellNode::get_contacts(unsigned dir, unsigned pos)
 	if (dir < 6 && pos < contacts[dir].size())
 		return contacts[dir][pos];
 	else
-		return NULL;
+		exit(5);
+	//TODO: : Insert an error message
+}
+
+vector <cellNode*> cellNode::get_contacts(unsigned dir)
+{
+	if (dir < 6)
+		return contacts[dir];
+	else
+		exit(5);
 	//TODO: : Insert an error message
 }
 
@@ -82,7 +91,7 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
     sister.contacts[1] = contacts[1];
     contacts[1].clear();
 
-    set_contacts(sister, 1, 0);
+    set_contacts(sister, 0, 1);
 
     divideContacts(*this, sister, 2, contacts[2].size()/2);
     divideContacts(*this, sister, 3, contacts[3].size()/2);

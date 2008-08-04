@@ -26,6 +26,9 @@
 #ifndef CELLNODE_H
 #define CELLNODE_H
 
+#include <cstdio>
+#include <cstdlib>
+
 #include <vector>
 using namespace std;
 
@@ -127,7 +130,7 @@ public:
    double get_morfogenSubstance() const;
 
    /**
-    * To get a linked cell. We don't use a const return, and the cellnode
+    * To get a linked cell. We don't use a constant return, and the cellnode
     * returned could be modified. This way has many risk but permits to
     * implement smarter programs.
     *
@@ -139,6 +142,18 @@ public:
     * and it must be shorter than vector.size().
     */
    cellNode* get_contacts(unsigned dir, unsigned pos);
+
+   /**
+     * To get a direction (vector) of linked cell.
+     * We don't use a constant return,
+     * and the cellnode returned could be modified.
+     * This way has many risk but permits to
+     * implement smarter programs.
+     *
+     * @param dir defines the direction and it must be
+     * shorter than 6 (numeber of directions),
+     */
+   vector <cellNode*> get_contacts(unsigned dir);
 
    /**
     * It is for a simple passive transport of a substance from the one cell
