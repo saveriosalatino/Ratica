@@ -64,31 +64,37 @@ int main(){
   vector<cellNode> forDupl;
 
   forDupl.push_back(1);//element that duplicate itself
+  cout << &forDupl[0] << endl;
 
   //first duplication
   forDupl.push_back(1);
   forDupl[0].cell_Division(1, forDupl[1], one->getTime());
+  cout << "0\t" << &forDupl[0] << endl;
+  cout << "1\t" << &forDupl[1] << endl;
   //second duplication
   forDupl.push_back(1);
   one->increaseTime();
   forDupl[0].cell_Division(2, forDupl[2], one->getTime());
+  cout << "0\t" << &forDupl[0] << endl;
+  cout << "2\t" << &forDupl[2] << endl;
   //second duplication
   forDupl.push_back(1);
   one->increaseTime();
   forDupl[0].cell_Division(3, forDupl[3], one->getTime());
-
+  cout << "0\t" << &forDupl[0] << endl;
+  cout << "3\t" << &forDupl[3] << endl;
 
   //Printing the forDupl elements
   cout << "-----------------------------------"<< endl;
-  for(short i=0; i < forDupl.size(); i++)
-   cout << "i" << '\t' << &forDupl[i] << endl;
+  for(unsigned i=0; i < forDupl.size(); i++)
+   cout << i << '\t' << &forDupl[i] << endl;
 
   //Printing the connections of forDupl elements
-  for (short i=0; i < forDupl.size(); i++){
+  for (unsigned i=0; i < forDupl.size(); i++){
 	  cout << "-----------------------------------"<< endl;
 	  for(short j=0; j < 6; j++){
 		  cout << j << '\t' << forDupl[i].get_contacts(j).size() << '\t';
-		  for(short k=0; k < forDupl[i].get_contacts(j).size(); k++)
+		  for(unsigned k=0; k < forDupl[i].get_contacts(j).size(); k++)
 			  cout << forDupl[i].get_contacts(j, k) << '\t';
 		  cout << endl;
 	  }
