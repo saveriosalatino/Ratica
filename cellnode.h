@@ -30,6 +30,7 @@
 #include <cstdlib>
 
 #include <vector>
+#include <iostream>
 using namespace std;
 
 #ifndef SIMCLOCK_H

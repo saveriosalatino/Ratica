@@ -163,6 +163,7 @@ void printConfig(const vector<cellNode*>& v, short it, ofstream & ostr){
 		ostr << endl;
 	    for (short i=0; i < it; i++){
 			for(short j=0; j < 6; j++){
+				ostr <<  "edge [label=\"" << j << "\"]" <<endl;
 				for(unsigned k=0; k < v[i]->get_contacts(j).size(); k++)
 					ostr << dec << int(v[i]) << " -> "
 					     << dec << int(v[i]->get_contacts(j, k)) << endl;

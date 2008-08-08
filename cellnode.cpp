@@ -84,68 +84,97 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
  birth_time = time;
  sister.birth_time = time;
 
- switch(division_type)
+ switch(division_type) //For each division plane
  {
-  case 1:
-	//clear the contacts of opposite cells
-	for(unsigned i = 0; i < contacts[1].size(); i++){
-		unsigned dir, pos;
-		if (getDirection(*(contacts[1][i]), *this, dir, pos)){
-				contacts[1][i]->contacts[dir].erase(pos);
-		}
-	}
+  case 1: //division plane 1: orthogonal directions are 0 and 1
 
 	sister.contacts[0].clear();
     sister.contacts[1] = contacts[1];
     contacts[1].clear();
 
-    set_contacts(sister, 0, 1);
+    set_contacts(sister, 1, 0);
 
-    divideContacts(*this, sister, 2, contacts[2].size()/2);
-    divideContacts(*this, sister, 3, contacts[3].size()/2);
-    divideContacts(*this, sister, 4, contacts[4].size()/2);
-    divideContacts(*this, sister, 5, contacts[5].size()/2);
+    if(contacts[2].size() == 1)
+    	contacts[2][0]->set_contacts(sister, 1, 0);
+    if(contacts[2].size() > 1)
+    	divideContacts(*this, sister, 2, contacts[2].size()/2);
+
+    if(contacts[3].size() == 1)
+        contacts[3][0]->set_contacts(sister, 1, 0);
+    if(contacts[3].size() > 1)
+		divideContacts(*this, sister, 3, contacts[3].size()/2);
+
+    if(contacts[4].size() == 1)
+        contacts[4][0]->set_contacts(sister, 1, 0);
+    if(contacts[4].size() > 1)
+    	divideContacts(*this, sister, 4, contacts[4].size()/2);
+
+    if(contacts[5].size() == 1)
+        contacts[5][0]->set_contacts(sister, 1, 0);
+    if(contacts[5].size() > 1)
+    	divideContacts(*this, sister, 5, contacts[5].size()/2);
     break;
 
+
   case 2:
-    //clear the contacts of opposite cells
-	  for(unsigned i = 0; i < contacts[3].size(); i++){
-	  		unsigned dir, pos;
-	  		if (getDirection(*(contacts[3][i]), *this, dir, pos)){
-	  				contacts[3][i]->contacts[dir].erase(pos);
-	  		}
-	  	}
 
 	sister.contacts[2].clear();
     sister.contacts[3] = contacts[3];
     contacts[3].clear();
 
-    set_contacts(sister, 2, 3);
+    set_contacts(sister, 3, 2);
 
-    divideContacts(*this, sister, 0, contacts[0].size()/2);
-    divideContacts(*this, sister, 1, contacts[1].size()/2);
-    divideContacts(*this, sister, 4, contacts[4].size()/2);
-    divideContacts(*this, sister, 5, contacts[5].size()/2);
+    if(contacts[0].size() == 1)
+        contacts[0][0]->set_contacts(sister, 3, 2);
+    if(contacts[0].size() > 1)
+    	divideContacts(*this, sister, 0, contacts[0].size()/2);
+
+    if(contacts[1].size() == 1)
+        contacts[1][0]->set_contacts(sister, 3, 2);
+    if(contacts[1].size() > 1)
+    	divideContacts(*this, sister, 1, contacts[1].size()/2);
+
+    if(contacts[4].size() == 1)
+        	contacts[4][0]->set_contacts(sister, 3, 2);
+    if(contacts[4].size() > 1)
+    	divideContacts(*this, sister, 4, contacts[4].size()/2);
+
+    if(contacts[5].size() == 1)
+        contacts[5][0]->set_contacts(sister, 3, 2);
+    if(contacts[5].size() > 1)
+    	divideContacts(*this, sister, 5, contacts[5].size()/2);
     break;
 
-   case 3:
-	//clear the contacts of opposite cells
-	   for(unsigned i = 0; i < contacts[5].size(); i++){
-	   		unsigned dir, pos;
-	   		if (getDirection(*(contacts[5][i]), *this, dir, pos)){
-	   				contacts[5][i]->contacts[dir].erase(pos);
-	   		}
-	   	}
+
+  case 3:
+
 	sister.contacts[4].clear();
     sister.contacts[5] = contacts[5];
     contacts[5].clear();
 
-    set_contacts(sister,4, 5);
+    set_contacts(sister,5, 4);
 
-    divideContacts(*this, sister, 0, contacts[0].size()/2);
-    divideContacts(*this, sister, 1, contacts[1].size()/2);
-    divideContacts(*this, sister, 2, contacts[2].size()/2);
-    divideContacts(*this, sister, 3, contacts[3].size()/2);
+    if(contacts[0].size() == 1)
+        contacts[0][0]->set_contacts(sister, 5, 4);
+    if(contacts[0].size() > 1)
+    	divideContacts(*this, sister, 0, contacts[0].size()/2);
+
+    if(contacts[1].size() == 1)
+        contacts[1][0]->set_contacts(sister, 5, 4);
+    if(contacts[1].size() > 1)
+    	divideContacts(*this, sister, 1, contacts[1].size()/2);
+
+
+    if(contacts[2].size() == 1)
+        contacts[2][0]->set_contacts(sister, 5, 4);
+    if(contacts[2].size() > 1)
+    	divideContacts(*this, sister, 2, contacts[2].size()/2);
+
+    if(contacts[3].size() == 1)
+        contacts[3][0]->set_contacts(sister, 5, 4);
+    if(contacts[3].size() > 1)
+    	divideContacts(*this, sister, 3, contacts[3].size()/2);
+
     break;
 
    default:
@@ -157,26 +186,16 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
 void cellNode::divideContacts(cellNode & ori, cellNode & copy, unsigned index, unsigned limit)
  {
 	if(index < 6 &&
-	   limit < ori.contacts[index].size())
-     {
-	  if(ori.contacts[index].size() == 1){
-		 unsigned dir, pos;
-		 if (getDirection(*(ori.contacts[index][0]), ori, dir, pos))
-			copy.set_contacts(*ori.contacts[index][0],index, dir);
-		 if (!getDirection(*(ori.contacts[index][0]), ori, dir, pos)){
-			 exit(5);
-			 //TODO: Insert an error message
-		 }
-	 }
-	 if(ori.contacts[index].size() > 1)
+	   limit < ori.contacts[index].size() &&
+	   ori.contacts[index].size() > 1)
 	 {
 		 vector<cellNode*>::iterator start, end;
 		 start = (ori.contacts[index]).begin();
-		 end = start + limit;
+		 end = (ori.contacts[index]).begin()+limit;
 		 copy.contacts[index].assign(start, end);
 		 ori.contacts[index].erase(start, end);
 	 }
-    }
+
     //TODO:else error message
 }
 
