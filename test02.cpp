@@ -21,6 +21,7 @@
  ***************************************************************************/
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 using namespace std;
 
@@ -36,72 +37,137 @@ using namespace std;
 #include "cellnode.h"
 #endif
 
+/**
+  * This function is for print a configuration of cellNode
+  * using dot language.
+  * The configuration is @p v, the number of active cellNode is
+  * @p it. For the stream we use @p ostr.
+  *
+  * To print the picture of you can use a command like
+  *
+  * dot -Tpng -o embryo03.png -v embryo03.dot
+  */
+
+void printConfig(const vector<cellNode*>& v, short it, ofstream & ostr);
+
 int main(){
 	simClock* two = new simClock;
 
 
 	/* 5 - Testing duplication */
 
-	vector<cellNode> forDupl;
+	vector<cellNode*> forDupl(128);
+	short num_init = 0;
 
-	cellNode zigote;
-	cellNode blastomeres[127];
 
-	cout << "-----------------------------------"<< endl;
-	cout << "initial data" << endl;
-    cout << 0 << '\t' << &zigote << endl;
-    for (short i = 0; i < 7; i++)
-    	cout << i+1 << '\t' << &blastomeres[i] << endl;
-
-    cout << "-----------------------------------"<< endl;
-    cout << "first tree vector elements" <<  endl;
-	forDupl.push_back(zigote);//element that duplicate itself
-    //first duplication
-	forDupl.push_back(blastomeres[0]);
-	cout << "0\t" << &forDupl[0] << endl;
-	cout << "1\t" << &forDupl[1] << endl;
-	cout << "2\t" << &forDupl[2] << endl;
-//	cout << &zigote << endl;
 
 	cout << "-----------------------------------"<< endl;
-	cout << "After first duplication" << endl;
-	forDupl[0].cell_Division(1, forDupl[1], two->getTime());
-	cout << "0\t" << &forDupl[0] << endl;
-	cout << "1\t" << &forDupl[1] << endl;
-	//second duplication
-	forDupl.push_back(blastomeres[1]);
+	cout << "First duplication" << endl;
+	forDupl[0] = new cellNode;
+	num_init++;
+
+	ofstream ostr0000;
+	ostr0000.open("./embryo0000.dot", ios::out|ios::trunc);
+	printConfig(forDupl, num_init, ostr0000);
+	ostr0000.close();
+
+
+	forDupl[1] = new cellNode;
+	num_init++;
+
+	forDupl[0]->cell_Division(1, *forDupl[1], two->getTime());
+	ofstream ostr0100;
+	ostr0100.open("./embryo0100.dot", ios::out|ios::trunc);
+	printConfig(forDupl, num_init, ostr0100);
+	ostr0100.close();
+
+	cout << "-----------------------------------"<< endl;
+	cout << "Second duplication" << endl;
+	forDupl[2] = new cellNode;
+	num_init++;
+	forDupl[3] = new cellNode;
+	num_init++;
+
 	two->increaseTime();
-	forDupl[0].cell_Division(2, forDupl[2], two->getTime());
-	cout << "After second duplication" << endl;
-	cout << "0\t" << &forDupl[0] << endl;
-	cout << "2\t" << &forDupl[2] << endl;
-	//second duplication
-	forDupl.push_back(blastomeres[2]);
-	two->increaseTime();
-	forDupl[0].cell_Division(3, forDupl[3], two->getTime());
-	cout << "After third duplication" << endl;
-	cout << "0\t" << &forDupl[0] << endl;
-	cout << "3\t" << &forDupl[3] << endl;
 
-	//Printing the forDupl elements
+	forDupl[0]->cell_Division(2, *forDupl[2], two->getTime());
+	ofstream ostr0150;
+	ostr0150.open("./embryo0150.dot", ios::out|ios::trunc);
+	printConfig(forDupl, num_init, ostr0150);
+	ostr0150.close();
+
+	forDupl[1]->cell_Division(2, *forDupl[3], two->getTime());
+	ofstream ostr0200;
+	ostr0200.open("./embryo0200.dot", ios::out|ios::trunc);
+	printConfig(forDupl, num_init, ostr0200);
+	ostr0200.close();
+
 	cout << "-----------------------------------"<< endl;
-	cout << "each elements of the vector" << endl;
-    for(unsigned i=0; i < forDupl.size(); i++)
-	   cout << i << '\t' << &forDupl[i] << endl;
+	cout << "Third duplication" << endl;
+	forDupl[4] = new cellNode;
+	num_init++;
+	forDupl[5] = new cellNode;
+	num_init++;
+	forDupl[6] = new cellNode;
+	num_init++;
+	forDupl[7] = new cellNode;
+	num_init++;
 
-	//Printing the connections of forDupl elements
-    cout << "for each element each link" << endl;
-	for (unsigned i=0; i < forDupl.size(); i++){
-		cout << "-----------------------------------"<< endl;
-		cout << i << '\t' << &forDupl[i] << endl;
-		for(short j=0; j < 6; j++){
-			cout << j << '\t' << forDupl[i].get_contacts(j).size() << '\t';
-			for(unsigned k=0; k < forDupl[i].get_contacts(j).size(); k++)
-				cout << forDupl[i].get_contacts(j, k) << '\t';
-			cout << endl;
-		}
+	two->increaseTime();
+
+	forDupl[0]->cell_Division(3, *forDupl[4], two->getTime());
+	ofstream ostr0225;
+	ostr0225.open("embryo0225.dot", ios::out|ios::trunc);
+	printConfig(forDupl, num_init, ostr0225);
+	ostr0225.close();
+
+	forDupl[1]->cell_Division(3, *forDupl[5], two->getTime());
+	ofstream ostr0250;
+	ostr0250.open("embryo0250.dot", ios::out|ios::trunc);
+	printConfig(forDupl, num_init, ostr0250);
+	ostr0250.close();
+
+	forDupl[2]->cell_Division(3, *forDupl[6], two->getTime());
+	ofstream ostr0275;
+	ostr0275.open("embryo0275.dot", ios::out|ios::trunc);
+	printConfig(forDupl, num_init, ostr0275);
+	ostr0275.close();
+
+
+	forDupl[3]->cell_Division(3, *forDupl[7], two->getTime());
+	ofstream ostr0300;
+	ostr0300.open("embryo0300.dot", ios::out|ios::trunc);
+	printConfig(forDupl, num_init, ostr0300);
+	ostr0300.close();
+
+	for(short i = 0; i < num_init; i++){
+		delete forDupl[i];
+		forDupl[i]=NULL;
 	}
-
+	for(unsigned i = num_init; i < forDupl.size(); i++)
+		forDupl[i]=NULL;
 	delete two;
 	two = NULL;
+}
+
+void printConfig(const vector<cellNode*>& v, short it, ofstream & ostr){
+
+	//Printing the forDupl elements using dot language
+
+	//Name of dot graph
+        ostr << "digraph cells\n{" <<endl;
+    //labeling, used to convert address to number
+	    for(short i=0; i < it; i++)
+		   ostr << int(v[i]) << "[label=\"" << i << "\"]" <<endl;
+    //the connections, to visualize links.
+		ostr << endl;
+	    for (short i=0; i < it; i++){
+			for(short j=0; j < 6; j++){
+				for(unsigned k=0; k < v[i]->get_contacts(j).size(); k++)
+					ostr << dec << int(v[i]) << " -> "
+					     << dec << int(v[i]->get_contacts(j, k)) << endl;
+			}
+			ostr << endl;
+		}
+		ostr << '}' << endl;
 }

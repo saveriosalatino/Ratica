@@ -111,7 +111,7 @@ public:
     * The calling cell use @p direct1 for the new connection.
     * @p other use @p direct2 for the reverse connection.
     *
-    * The condition to entabilish this contact is that
+    * The condition to establish this contact is that
     * the @p direction1 and @p direction2 have a valid value
     * ( > 0 and < 6) and that the number of contacts
     * for this directions there is minor than ten.
@@ -268,6 +268,23 @@ private:
     * @param limit is the number of the links moved.
     */
    void divideContacts(cellNode & ori, cellNode & copy, unsigned index, unsigned limit);
+
+   /**
+    * Used to search the linked direction @p whoSearch cellNode
+    * in the neighboring  of @p whereSearch;
+    *
+    * @param whereSearch cellNode that link the cell searched
+    *
+    * @param whoSearch cellNode liked by direction returned;
+    *
+    * @param dir is the direction obtained;
+    *
+    * @param pos is the direction position;
+    *
+    * the return is the success of the search
+    */
+   bool getDirection(const cellNode& whereSearch, const cellNode& whoSearch,
+		   unsigned& dir, unsigned& pos);
 };
 
 #endif
