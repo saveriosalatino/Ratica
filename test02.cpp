@@ -158,11 +158,14 @@ void printConfig(const vector<cellNode*>& v, short it, ofstream & ostr){
         ostr << "digraph cells\n{" <<endl;
     //labeling, used to convert address to number
 	    for(short i=0; i < it; i++)
-		   ostr << int(v[i]) << "[label=\"" << i << "\"]" <<endl;
+	    		ostr << int(v[i])
+	    		     << "[label=\"" << i << "\"]"
+	    		     << endl;
     //the connections, to visualize links.
 		ostr << endl;
 	    for (short i=0; i < it; i++){
 			for(short j=0; j < 6; j++){
+				if (v[i]->get_contacts(j).size() > 0)
 				ostr <<  "edge [label=\"" << j << "\"]" <<endl;
 				for(unsigned k=0; k < v[i]->get_contacts(j).size(); k++)
 					ostr << dec << int(v[i]) << " -> "

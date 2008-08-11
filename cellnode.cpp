@@ -33,7 +33,7 @@ cellNode::cellNode(double morphogen_concentration, int type, int geometry, int t
 
 void cellNode::set_contacts(cellNode& other, unsigned direct1, unsigned direct2)
 {
-  if(direct1 < 6 && direct2 <6){
+  if(direct1 < 6 && direct2 < 6){
     contacts[direct1].push_back(&other);
     other.contacts[direct2].push_back(this);
   }
@@ -84,12 +84,19 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
  birth_time = time;
  sister.birth_time = time;
 
+ unsigned dir, pos;
  switch(division_type) //For each division plane
  {
   case 1: //division plane 1: orthogonal directions are 0 and 1
 
 	sister.contacts[0].clear();
-    sister.contacts[1] = contacts[1];
+	for(unsigned i = 0; i < contacts[1].size(); i++){
+		getDirection(*contacts[1][i], *this, dir, pos);
+		sister.set_contacts(*contacts[1][i], 1, pos);
+		vector<cellNode*>::iterator start;
+		start = (contacts[1][i]->contacts[dir]).begin();
+		contacts[1][i]->contacts[dir].erase(start+pos);
+	}
     contacts[1].clear();
 
     set_contacts(sister, 1, 0);
@@ -119,7 +126,13 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
   case 2:
 
 	sister.contacts[2].clear();
-    sister.contacts[3] = contacts[3];
+	for(unsigned i = 0; i < contacts[3].size(); i++){
+		getDirection(*contacts[3][i], *this, dir, pos);
+		sister.set_contacts(*contacts[3][i], 3, pos);
+		vector<cellNode*>::iterator start;
+		start = (contacts[3][i]->contacts[dir]).begin();
+		contacts[3][i]->contacts[dir].erase(start+pos);
+	}
     contacts[3].clear();
 
     set_contacts(sister, 3, 2);
@@ -135,7 +148,7 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
     	divideContacts(*this, sister, 1, contacts[1].size()/2);
 
     if(contacts[4].size() == 1)
-        	contacts[4][0]->set_contacts(sister, 3, 2);
+        contacts[4][0]->set_contacts(sister, 3, 2);
     if(contacts[4].size() > 1)
     	divideContacts(*this, sister, 4, contacts[4].size()/2);
 
@@ -149,7 +162,13 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
   case 3:
 
 	sister.contacts[4].clear();
-    sister.contacts[5] = contacts[5];
+	for(unsigned i = 0; i < contacts[5].size(); i++){
+		getDirection(*contacts[5][i], *this, dir, pos);
+		sister.set_contacts(*contacts[5][i], 5, pos);
+		vector<cellNode*>::iterator start;
+		start = (contacts[5][i]->contacts[dir]).begin();
+		contacts[5][i]->contacts[dir].erase(start+pos);
+	}
     contacts[5].clear();
 
     set_contacts(sister,5, 4);
