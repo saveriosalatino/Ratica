@@ -84,6 +84,8 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
  birth_time = time;
  sister.birth_time = time;
 
+ unsigned dir, pos;
+
  switch(division_type) //For each division plane
  {
   case 1: //division plane 1: orthogonal directions are 0 and 1
@@ -94,23 +96,31 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
 
 	set_contacts(sister, 1, 0);
 
-    if(contacts[2].size() == 1)
-    	contacts[2][0]->set_contacts(sister, 1, 0);
+    if(contacts[2].size() == 1){
+    	getDirection(*contacts[2][0], *this, dir, pos);
+    	contacts[2][0]->set_contacts(sister, dir, 2);
+    }
     if(contacts[2].size() > 1)
     	moveContacts(*this, sister, 2, contacts[2].size()/2);
 
-    if(contacts[3].size() == 1)
-        contacts[3][0]->set_contacts(sister, 1, 0);
+    if(contacts[3].size() == 1){
+        getDirection(*contacts[3][0], *this, dir, pos);
+        contacts[3][0]->set_contacts(sister, dir, 3);
+    }
     if(contacts[3].size() > 1)
 		moveContacts(*this, sister, 3, contacts[3].size()/2);
 
-    if(contacts[4].size() == 1)
-        contacts[4][0]->set_contacts(sister, 1, 0);
+    if(contacts[4].size() == 1){
+    	getDirection(*contacts[4][0], *this, dir, pos);
+        contacts[4][0]->set_contacts(sister, dir, 4);
+    }
     if(contacts[4].size() > 1)
     	moveContacts(*this, sister, 4, contacts[4].size()/2);
 
-    if(contacts[5].size() == 1)
-        contacts[5][0]->set_contacts(sister, 1, 0);
+    if(contacts[5].size() == 1){
+    	getDirection(*contacts[5][0], *this, dir, pos);
+        contacts[5][0]->set_contacts(sister, dir, 5);
+    }
     if(contacts[5].size() > 1)
     	moveContacts(*this, sister, 5, contacts[5].size()/2);
     break;
@@ -124,23 +134,31 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
 
     set_contacts(sister, 3, 2);
 
-    if(contacts[0].size() == 1)
-        contacts[0][0]->set_contacts(sister, 3, 2);
+    if(contacts[0].size() == 1){
+    	getDirection(*contacts[0][0], *this, dir, pos);
+        contacts[0][0]->set_contacts(sister, dir, 0);
+    }
     if(contacts[0].size() > 1)
     	moveContacts(*this, sister, 0, contacts[0].size()/2);
 
-    if(contacts[1].size() == 1)
-        contacts[1][0]->set_contacts(sister, 3, 2);
+    if(contacts[1].size() == 1){
+        getDirection(*contacts[1][0], *this, dir, pos);
+        contacts[1][0]->set_contacts(sister, dir, 1);
+    }
     if(contacts[1].size() > 1)
     	moveContacts(*this, sister, 1, contacts[1].size()/2);
 
-    if(contacts[4].size() == 1)
-        contacts[4][0]->set_contacts(sister, 3, 2);
+    if(contacts[4].size() == 1){
+        getDirection(*contacts[4][0], *this, dir, pos);
+        contacts[4][0]->set_contacts(sister, dir, 4);
+    }
     if(contacts[4].size() > 1)
     	moveContacts(*this, sister, 4, contacts[4].size()/2);
 
-    if(contacts[5].size() == 1)
-        contacts[5][0]->set_contacts(sister, 3, 2);
+    if(contacts[5].size() == 1){
+    	getDirection(*contacts[5][0], *this, dir, pos);
+        contacts[5][0]->set_contacts(sister, dir, 5);
+    }
     if(contacts[5].size() > 1)
     	moveContacts(*this, sister, 5, contacts[5].size()/2);
     break;
@@ -154,25 +172,33 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
 
 	set_contacts(sister,5, 4);
 
-    if(contacts[0].size() == 1)
-        contacts[0][0]->set_contacts(sister, 5, 4);
-    if(contacts[0].size() > 1)
+	if(contacts[0].size() == 1){
+		getDirection(*contacts[0][0], *this, dir, pos);
+	    contacts[0][0]->set_contacts(sister, dir, 0);
+	}
+	if(contacts[0].size() > 1)
     	moveContacts(*this, sister, 0, contacts[0].size()/2);
 
-    if(contacts[1].size() == 1)
-        contacts[1][0]->set_contacts(sister, 5, 4);
-    if(contacts[1].size() > 1)
+	if(contacts[1].size() == 1){
+		getDirection(*contacts[1][0], *this, dir, pos);
+	    contacts[1][0]->set_contacts(sister, dir, 1);
+	}
+	if(contacts[1].size() > 1)
     	moveContacts(*this, sister, 1, contacts[1].size()/2);
 
 
-    if(contacts[2].size() == 1)
-        contacts[2][0]->set_contacts(sister, 5, 4);
-    if(contacts[2].size() > 1)
+	if(contacts[2].size() == 1){
+		getDirection(*contacts[2][0], *this, dir, pos);
+	    contacts[2][0]->set_contacts(sister, dir, 2);
+	}
+	if(contacts[2].size() > 1)
     	moveContacts(*this, sister, 2, contacts[2].size()/2);
 
-    if(contacts[3].size() == 1)
-        contacts[3][0]->set_contacts(sister, 5, 4);
-    if(contacts[3].size() > 1)
+	if(contacts[3].size() == 1){
+		getDirection(*contacts[3][0], *this, dir, pos);
+	    contacts[3][0]->set_contacts(sister, dir, 3);
+	}
+	if(contacts[3].size() > 1)
     	moveContacts(*this, sister, 3, contacts[3].size()/2);
 
     break;
