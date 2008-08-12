@@ -84,115 +84,96 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
  birth_time = time;
  sister.birth_time = time;
 
- unsigned dir, pos;
  switch(division_type) //For each division plane
  {
   case 1: //division plane 1: orthogonal directions are 0 and 1
 
 	sister.contacts[0].clear();
-	for(unsigned i = 0; i < contacts[1].size(); i++){
-		getDirection(*contacts[1][i], *this, dir, pos);
-		sister.set_contacts(*contacts[1][i], 1, pos);
-		vector<cellNode*>::iterator start;
-		start = (contacts[1][i]->contacts[dir]).begin();
-		contacts[1][i]->contacts[dir].erase(start+pos);
-	}
-    contacts[1].clear();
 
-    set_contacts(sister, 1, 0);
+	moveContacts(*this, sister, 1);
+
+	set_contacts(sister, 1, 0);
 
     if(contacts[2].size() == 1)
     	contacts[2][0]->set_contacts(sister, 1, 0);
     if(contacts[2].size() > 1)
-    	divideContacts(*this, sister, 2, contacts[2].size()/2);
+    	moveContacts(*this, sister, 2, contacts[2].size()/2);
 
     if(contacts[3].size() == 1)
         contacts[3][0]->set_contacts(sister, 1, 0);
     if(contacts[3].size() > 1)
-		divideContacts(*this, sister, 3, contacts[3].size()/2);
+		moveContacts(*this, sister, 3, contacts[3].size()/2);
 
     if(contacts[4].size() == 1)
         contacts[4][0]->set_contacts(sister, 1, 0);
     if(contacts[4].size() > 1)
-    	divideContacts(*this, sister, 4, contacts[4].size()/2);
+    	moveContacts(*this, sister, 4, contacts[4].size()/2);
 
     if(contacts[5].size() == 1)
         contacts[5][0]->set_contacts(sister, 1, 0);
     if(contacts[5].size() > 1)
-    	divideContacts(*this, sister, 5, contacts[5].size()/2);
+    	moveContacts(*this, sister, 5, contacts[5].size()/2);
     break;
 
 
   case 2:
 
 	sister.contacts[2].clear();
-	for(unsigned i = 0; i < contacts[3].size(); i++){
-		getDirection(*contacts[3][i], *this, dir, pos);
-		sister.set_contacts(*contacts[3][i], 3, pos);
-		vector<cellNode*>::iterator start;
-		start = (contacts[3][i]->contacts[dir]).begin();
-		contacts[3][i]->contacts[dir].erase(start+pos);
-	}
-    contacts[3].clear();
+
+	moveContacts(*this, sister, 3);
 
     set_contacts(sister, 3, 2);
 
     if(contacts[0].size() == 1)
         contacts[0][0]->set_contacts(sister, 3, 2);
     if(contacts[0].size() > 1)
-    	divideContacts(*this, sister, 0, contacts[0].size()/2);
+    	moveContacts(*this, sister, 0, contacts[0].size()/2);
 
     if(contacts[1].size() == 1)
         contacts[1][0]->set_contacts(sister, 3, 2);
     if(contacts[1].size() > 1)
-    	divideContacts(*this, sister, 1, contacts[1].size()/2);
+    	moveContacts(*this, sister, 1, contacts[1].size()/2);
 
     if(contacts[4].size() == 1)
         contacts[4][0]->set_contacts(sister, 3, 2);
     if(contacts[4].size() > 1)
-    	divideContacts(*this, sister, 4, contacts[4].size()/2);
+    	moveContacts(*this, sister, 4, contacts[4].size()/2);
 
     if(contacts[5].size() == 1)
         contacts[5][0]->set_contacts(sister, 3, 2);
     if(contacts[5].size() > 1)
-    	divideContacts(*this, sister, 5, contacts[5].size()/2);
+    	moveContacts(*this, sister, 5, contacts[5].size()/2);
     break;
 
 
   case 3:
 
 	sister.contacts[4].clear();
-	for(unsigned i = 0; i < contacts[5].size(); i++){
-		getDirection(*contacts[5][i], *this, dir, pos);
-		sister.set_contacts(*contacts[5][i], 5, pos);
-		vector<cellNode*>::iterator start;
-		start = (contacts[5][i]->contacts[dir]).begin();
-		contacts[5][i]->contacts[dir].erase(start+pos);
-	}
-    contacts[5].clear();
 
-    set_contacts(sister,5, 4);
+	moveContacts(*this, sister, 5);
+
+	set_contacts(sister,5, 4);
 
     if(contacts[0].size() == 1)
         contacts[0][0]->set_contacts(sister, 5, 4);
     if(contacts[0].size() > 1)
-    	divideContacts(*this, sister, 0, contacts[0].size()/2);
+    	moveContacts(*this, sister, 0, contacts[0].size()/2);
 
     if(contacts[1].size() == 1)
         contacts[1][0]->set_contacts(sister, 5, 4);
     if(contacts[1].size() > 1)
-    	divideContacts(*this, sister, 1, contacts[1].size()/2);
+    	moveContacts(*this, sister, 1, contacts[1].size()/2);
 
 
     if(contacts[2].size() == 1)
         contacts[2][0]->set_contacts(sister, 5, 4);
     if(contacts[2].size() > 1)
-    	divideContacts(*this, sister, 2, contacts[2].size()/2);
+    	moveContacts(*this, sister, 2, contacts[2].size()/2);
 
     if(contacts[3].size() == 1)
         contacts[3][0]->set_contacts(sister, 5, 4);
     if(contacts[3].size() > 1)
-    	divideContacts(*this, sister, 3, contacts[3].size()/2);
+    	moveContacts(*this, sister, 3, contacts[3].size()/2);
 
     break;
 
@@ -201,23 +182,25 @@ void cellNode::cell_Division(int const division_type, cellNode& sister, int cons
     break;
  }
 }
-
+/*
 void cellNode::divideContacts(cellNode & ori, cellNode & copy, unsigned index, unsigned limit)
  {
 	if(index < 6 &&
 	   limit < ori.contacts[index].size() &&
 	   ori.contacts[index].size() > 1)
 	 {
-		 vector<cellNode*>::iterator start, end;
-		 start = (ori.contacts[index]).begin();
-		 end = (ori.contacts[index]).begin()+limit;
-		 copy.contacts[index].assign(start, end);
-		 ori.contacts[index].erase(start, end);
-	 }
+		 //vector<cellNode*>::iterator start, end;
+		 //start = (ori.contacts[index]).begin();
+		 //end = (ori.contacts[index]).begin()+limit;
 
+		 //copy.contacts[index].assign(start, end);
+		 //ori.contacts[index].erase(start, end);
+		 moveContacts(ori, cellNode & to, unsigned dir1, unsigned limit)
+	 }
+	else exit(5);
     //TODO:else error message
 }
-
+*/
 bool cellNode::getDirection(const cellNode& whereSearch, const cellNode& whoSearch,
 		   unsigned& dir, unsigned& pos){
 	for(unsigned i = 0; i < 6; i++){
@@ -230,4 +213,48 @@ bool cellNode::getDirection(const cellNode& whereSearch, const cellNode& whoSear
 		}
 	}
 	return false;
+}
+
+void cellNode::moveContacts(cellNode & from, cellNode & to, unsigned dir1)
+{
+	//dir2 e pos2 are direction and position of each reverse link
+	// to from by dir1
+	unsigned dir2, pos2;
+
+	if(dir1 < 6){
+		for(unsigned i = 0; i < from.contacts[dir1].size(); i++){
+			getDirection(*(from.contacts[dir1][i]), from, dir2, pos2);
+			to.set_contacts(*(from.contacts[dir1][i]), dir1, dir2);
+			vector<cellNode*>::iterator start;
+			start = (from.contacts[dir1][i]->contacts[dir2]).begin();
+			from.contacts[dir1][i]->contacts[dir2].erase(start+pos2);
+		}
+		contacts[dir1].clear();
+	}
+	else exit(5);
+	//TODO:else error message
+}
+
+void cellNode::moveContacts(cellNode & from, cellNode & to, unsigned dir1, unsigned limit)
+{
+	//dir2 e pos2 are direction and position of each reverse link
+	// to from by dir1
+	unsigned dir2, pos2;
+	if(dir1 < 6 && limit < from.contacts[dir1].size()){
+		for(unsigned i = 0; i < limit; i++){
+			getDirection(*(from.contacts[dir1][i]), from, dir2, pos2);
+			to.set_contacts(*(from.contacts[dir1][i]), dir1, dir2);
+			vector<cellNode*>::iterator start;
+			start = (from.contacts[dir1][i]->contacts[dir2]).begin();
+			from.contacts[dir1][i]->contacts[dir2].erase(start+pos2);
+		}
+		vector<cellNode*>::iterator start, end;
+		start = (from.contacts[dir1]).begin();
+		end = (from.contacts[dir1]).begin()+limit;
+
+		from.contacts[dir1].erase(start, end);
+
+	}
+	else exit(5);
+	//TODO:else error message
 }
