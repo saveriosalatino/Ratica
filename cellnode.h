@@ -273,30 +273,14 @@ private:
    bool getDirection(const cellNode& whereSearch, const cellNode& whoSearch,
 		   unsigned& dir, unsigned& pos);
 
-   /**
-     * It is used to move each link of direction @p dir1
-     * from @p from to @p to
-     *
-     * @param from cellNode has links to move;
-     *
-     * @param to cellNode that receives the links;
-     *
-     * @param dir1 is the direction of the links to move;
-     *
-     * @see contacs
-     *
-     * @see getDirection
-     *
-     * @see set_contacts
-     */
-   void moveContacts(cellNode & from, cellNode & to, unsigned dir1);
 
    /**
-     * It's used to move the first @p limit contacts of @p dir direction
+     * It's used to move contacts from @p limit to the end of @p dir direction
      * from @p from to @p to .
      * The function controls first that @p index is a valid direction
-     * (< 6) and that limits is almost equal to the number of @p to contacts
-     * for the @p limit direction.
+     * (< 6).
+     * If @p limit is greater than the size of  the vector never contact is moved.
+     * If there are values for limit all contacts are moved.
      *
      * @param from cellNode that provides the contacts
      *
@@ -304,9 +288,9 @@ private:
      *
      * @param dir unsigned that accounts for the directions of the copied contacts
      *
-     * @param limit is the number of the links moved.
+     * @param limit is the number of the links moved. Default value is 0.
      */
-   void moveContacts(cellNode & from, cellNode & to, unsigned dir1, unsigned limit);
+   void moveContacts(cellNode & from, cellNode & to, unsigned dir1, unsigned limit = 0);
 };
 
 #endif

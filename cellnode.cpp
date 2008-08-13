@@ -241,44 +241,24 @@ bool cellNode::getDirection(const cellNode& whereSearch, const cellNode& whoSear
 	return false;
 }
 
-void cellNode::moveContacts(cellNode & from, cellNode & to, unsigned dir1)
-{
-	//dir2 e pos2 are direction and position of each reverse link
-	// to from by dir1
-	unsigned dir2, pos2;
-
-	if(dir1 < 6){
-		for(unsigned i = 0; i < from.contacts[dir1].size(); i++){
-			getDirection(*(from.contacts[dir1][i]), from, dir2, pos2);
-			to.set_contacts(*(from.contacts[dir1][i]), dir1, dir2);
-			vector<cellNode*>::iterator start;
-			start = (from.contacts[dir1][i]->contacts[dir2]).begin();
-			from.contacts[dir1][i]->contacts[dir2].erase(start+pos2);
-		}
-		contacts[dir1].clear();
-	}
-	else exit(5);
-	//TODO:else error message
-}
-
 void cellNode::moveContacts(cellNode & from, cellNode & to, unsigned dir1, unsigned limit)
 {
 	//dir2 e pos2 are direction and position of each reverse link
 	// to from by dir1
 	unsigned dir2, pos2;
-	if(dir1 < 6 && limit < from.contacts[dir1].size()){
-		for(unsigned i = 0; i < limit; i++){
+	if(dir1 < 6 /*&& limit < from.contacts[dir1].size()*/){
+		for(unsigned i = limit; i < from.contacts[dir1].size(); i++){
 			getDirection(*(from.contacts[dir1][i]), from, dir2, pos2);
 			to.set_contacts(*(from.contacts[dir1][i]), dir1, dir2);
 			vector<cellNode*>::iterator start;
 			start = (from.contacts[dir1][i]->contacts[dir2]).begin();
 			from.contacts[dir1][i]->contacts[dir2].erase(start+pos2);
 		}
-		vector<cellNode*>::iterator start, end;
-		start = (from.contacts[dir1]).begin();
-		end = (from.contacts[dir1]).begin()+limit;
+		vector<cellNode*>::iterator start, stop;
+		start = (from.contacts[dir1]).begin()+limit;
+		stop = (from.contacts[dir1]).end();
 
-		from.contacts[dir1].erase(start, end);
+		from.contacts[dir1].erase(start, stop);
 
 	}
 	else exit(5);
